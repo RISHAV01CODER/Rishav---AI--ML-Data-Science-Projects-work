@@ -1,0 +1,44 @@
+import cv2
+import mediapipe as mp
+
+# Initialize the pose detector
+mp_pose = mp.solutions.pose
+pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
+
+# Capture the video feed
+cap = cv2.VideoCapture(0)
+
+while True:
+    # Read the next frame from the video feed
+    ret, frame = cap.read()
+
+    # Convert the frame to RGB format
+    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+    # Detect the pose in the frame
+    results = pose.process(rgb_frame)
+
+    # Draw the pose landmarks on the frame
+    if results.pose_landmarks:
+        mp_drawing.draw_pose_landmarks(
+            frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS
+        )
+
+    # Display the frame
+    cv2.imshow("Frame", frame)
+
+    # Press `q` to quit
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+# Release the video capture object
+cap.release()
+cv2.destroyAllWindows()
+
+
+
+***    end   ***
+
+This code first imports the necessary libraries: OpenCV and mediapipe. Then, it initializes the pose detector and captures the video feed. In the while loop, it reads the next frame from the video feed, converts it to RGB format, and detects the pose in the frame. If the pose is detected, it draws the pose landmarks on the frame. The frame is then displayed. The user can press q to quit the program.
+
+This code is a simple example of how to perform pose estimation using OpenCV. There are many other ways to implement pose estimation, and the specific approach that you use will depend on your specific needs.
